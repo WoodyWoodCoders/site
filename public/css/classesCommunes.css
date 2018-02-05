@@ -1,0 +1,160 @@
+
+.center {
+    margin: auto;
+    text-align: center;
+}
+
+.flex {
+    display: flex;
+}
+
+
+.display-none {
+    display: none;
+}
+
+.space-between {
+    justify-content: space-between;
+}
+
+.bg-white {
+    background-color: white!important;
+}
+
+.bg-transparent {
+    background-color: transparent!important;
+}
+
+.no-margin {
+    margin: 0!important;
+}
+
+.margin-top-1em {
+    margin-top: 1em;
+}
+
+.padding-left-1em {
+    padding-left: 1em;
+}
+
+.margin-bottom-1em {
+    margin-bottom: 1em!important;
+}
+
+.margin-bottom-10px {
+    margin-bottom: 10px!important;
+}
+
+.padding-1em {
+    padding: 1em;
+}
+.padding-5px {
+    padding: 5px;
+}
+
+.position-relative {
+    position: relative;
+}
+
+.centerTable th,
+.centerTable td {
+    margin: auto;
+    text-align: center;
+}
+
+.no-decoration {
+    text-decoration: none!important;
+}
+
+.border-none {
+    border: none!important;
+}
+
+.border-white {
+    border: 1px solid white!important;
+}
+
+.border-black {
+    border: 1px solid black!important;
+}
+
+.border-color-black {
+    border-color: black!important;
+}
+
+.text-align-left-important {
+    text-align: left!important;
+}
+.text-align-left {
+    text-align: left;
+}
+
+.text-align-right {
+    text-align: right;
+}
+
+.visibility-hidden {
+    visibility: hidden;
+}
+
+.no-uppercase {
+    text-transform: none!important;
+}
+
+.valign-top {
+    vertical-align: top!important;
+}
+
+.valign-middle {
+    vertical-align: middle!important;
+}
+
+.inline-block {
+    display: inline-block!important;
+}
+
+.color-eee {
+	color: #eee!important;
+}
+
+.color-default {
+	color: #E1E5EC!important;
+}
+
+.color-white {
+	color: white!important;
+}
+.color-black {
+	color: black!important;
+}
+
+.block {
+    display: block!important;
+}
+
+.display-block {
+    /*display: block;*/
+}
+.display-flex {
+    display: flex;
+}
+
+.display-inline {
+    display: inline-block;
+}
+
+.max-width-100 {
+    max-width: 100%!important;
+}
+
+.width-100 {
+    width: 100%!important;
+}
+
+.width-50 {
+    width: 50%!important;
+}
+
+.width-auto {
+    width: auto!important;
+}
