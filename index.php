@@ -27,7 +27,6 @@ $action = isset($_GET["a"])
         ? strtolower($_GET["a"])
         : "index";
 
-// var_dump(hash("sha256", "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4"));
 
 // $controller = "App\UserBundle\Controller\\" . ucfirst($page) . "Controller";
 $controller = ucfirst($page) . "Controller";
@@ -44,10 +43,7 @@ $action = $action . "Action";
 
 $userLogged = false;
 if(isset($_SESSION['user'])
-// && is_a($_SESSION['user'], "App/UserBundle/Entity/User")
 && !empty($_SESSION['user']->getToken())) {
-// && method_exists($_SESSION['user'], 'getToken')
-// && !empty($_SESSION['user']->getToken())) {
     $userLogged = true;
     $user = $_SESSION['user'];
     // var_dump($user);
@@ -59,21 +55,8 @@ $needUserLogged = $controller === "UserController"
                 ? false
                 : true;
 
-// var_dump($page === "UserController" && $action == "loginAction");
-
 if(isset($routeur[$controller]) && class_exists($routeur[$controller]) && method_exists($routeur[$controller], $action)) {
     $controller = new $routeur[$controller]($needUserLogged);
 
     $action = $controller->$action();
 }
-
-
-// var_dump(
-//     $controller->rest(
-//         "Wood/rest.php",
-//         array(
-//             0, 1, 2, 3, 4, 5
-//         ),
-//         "GET"
-//     )
-// );

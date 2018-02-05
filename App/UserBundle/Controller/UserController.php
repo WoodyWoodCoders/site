@@ -109,7 +109,7 @@ class UserController extends Controller {
                 return false;
             }
 
-            // $password = hash("sha256", $password);
+            $password = hash("sha256", $password);
             // $hexPassword = bin2hex($password);
 
             $reponse = $this->rest(
