@@ -31,12 +31,13 @@
             <td><?php echo $composant->getDimensions(); ?></td>
             <td><?php echo $composant->getPrix(); ?></td>
             <td>
-                <button type="button" class="btn btn-success"  onClick="formComposant(<?php echo $composant->getId() ?>);"> <i class="fa fa-pencil"></i> </button>
-                <form id="formDeleteComposant" action="index.php?p=composant&a=crud" method="post">
+                <form action="index.php?p=composant&a=crud" method="post">
                     <input type="hidden" name="action" value="deleteComposant">
                     <input type="hidden" name="id" value="<?php echo $composant->getId() ?>">
+
+                    <button type="button" class="btn btn-success"  onClick="formComposant(<?php echo $composant->getId() ?>);"> <i class="fa fa-pencil"></i> </button>
+                    <button type="submit" class="btn btn-danger"><i class="fa fa-close"></i></button>
                 </form>
-                <button type="submit" form="formDeleteComposant" class="btn btn-danger"><i class="fa fa-close"></i></button>
             </td>
         </tr>
         <?php endforeach; ?>

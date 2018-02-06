@@ -29,14 +29,25 @@
             <td><?php echo $module->getNom(); ?></td>
             <td><?php echo $module->getDimensions(); ?></td>
             <td><?php echo $module->getPrix(); ?></td>
-            <td><?php //echo $module->getGamme(); ?></td>
             <td>
-                <button type="button" class="btn btn-success"  onClick="formModule(<?php echo $module->getId() ?>);"> <i class="fa fa-pencil"></i> </button>
-                <form id="formDeleteModule" action="index.php?p=module&a=crud" method="post">
+                <?php if (!empty($module->getComposants())): ?>
+                <ul class="no-margin">
+                <?php foreach ($module->getComposants() as $composant): ?>
+                    <li>
+                        <?php echo $composant->getNom(); ?>
+                    </li>
+                <?php endforeach; ?>
+                <?php endif; ?>
+                </ul>
+            </td>
+            <td>
+                <form action="index.php?p=module&a=crud" method="post">
                     <input type="hidden" name="action" value="deleteModule">
                     <input type="hidden" name="id" value="<?php echo $module->getId() ?>">
+                    
+                    <button type="button" class="btn btn-success"  onClick="formModule(<?php echo $module->getId() ?>);"> <i class="fa fa-pencil"></i> </button>
+                    <button type="submit" class="btn btn-danger"><i class="fa fa-close"></i></button>
                 </form>
-                <button type="submit" form="formDeleteModule" class="btn btn-danger"><i class="fa fa-close"></i></button>
             </td>
         </tr>
         <?php endforeach; ?>

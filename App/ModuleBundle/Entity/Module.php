@@ -9,7 +9,7 @@ class Module {
     private $dimensions;
     private $prix;
     private $dateCrea;
-    private $composants;
+    private $composants = array();
 
     public function __construct(array $donnees = null)
     {

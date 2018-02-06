@@ -44,6 +44,22 @@
                 : ""
             ?>" />
         </div>
+        <div class="form-group">
+            <label class="formIntitule">Composant(s) *</label>
+            <select class="form-control" name="composants[]" id="moduleComposants" multiple>
+                <?php if (!empty($composants)): ?>
+                <?php foreach ($composants as $composant): ?>
+                    <option value="<?php echo $composant->getId(); ?>"<?php
+                        echo is_numeric($module->getId())
+                        && !empty($module->getComposants())
+                        && isset($module->getComposants()[$composant->getId()])
+                        ? " selected "
+                        : ""
+                        ?>><?php echo $composant->getNom() ?> | Prix : <?php echo $composant->getPrix() ?> €</option>
+                <?php endforeach; ?>
+                <?php endif; ?>
+            </select>
+        </div>
     </form>
 
 

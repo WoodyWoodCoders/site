@@ -4,6 +4,7 @@ namespace App\ModuleBundle\Controller;
 
 use Core\Controller;
 use App\ModuleBundle\Entity\Module;
+use App\ComposantBundle\Entity\Composant;
 
 class ModuleController extends Controller {
     protected $viewPath = "App/ModuleBundle/Views/";
@@ -47,11 +48,15 @@ class ModuleController extends Controller {
         $this->includeJS[] = "public/tools/datatables/datatables.min.js";
         $this->includeCSS[] = "public/tools/datatables/datatables.min.css";
 
+        $this->includeJS[] = "public/vendors/select2/dist/js/select2.min.js";
+        $this->includeJS[] = "public/vendors/select2/dist/js/i18n/fr.js";
+        $this->includeCSS[] = "public/vendors/select2/dist/css/select2.min.css";
+
         $this->includeJS[] = $this->viewPath . "script.js";
         // $this->includeCSS[] = $this->viewPath . "style.css";
 
         $data = $this->rest(
-            "rest/module/get/all",
+            "rest/module/get/all/dto",
             array(),
             "GET",
             true
@@ -61,7 +66,26 @@ class ModuleController extends Controller {
 
         if (!empty($data)) {
             foreach($data as $module) {
-                $modules[] = new Module($module);
+                $module = new Module($module);
+
+                $composants = $this->rest(
+                    "rest/module/get/all/composants/" . $module->getId(),
+                    array(),
+                    "GET",
+                    true
+                );
+                if (!empty($composants)) {
+                    $tab = array();
+                    foreach($composants as $composant) {
+                        if (!empty($composant)) {
+                            $composant = new Composant($composant);
+                            $tab[$composant->getId()] = $composant;
+                        }
+                    }
+                    $module->setComposants($tab);
+                }
+
+                $modules[] = $module;
             }
         }
 
@@ -77,16 +101,31 @@ class ModuleController extends Controller {
             if($action === "getModuleModal" && isset($_POST["id"])) {
                 $id_module = intval($_POST["id"]);
                 if($id_module > 0 ) {
-
-                    $data = $this->rest(
+                    $module = $this->rest(
                         "rest/module/get/$id_module",
                         array(),
                         "GET",
                         true
                     );
 
-                    if (!empty($data)) {
-                        $module = new Module($data);
+                    if (!empty($module)) {
+                        $module = new Module($module);
+                        $moduleComposants = $this->rest(
+                            "rest/module/get/all/composants/" . $module->getId(),
+                            array(),
+                            "GET",
+                            true
+                        );
+                        if (!empty($moduleComposants)) {
+                            $data = array();
+                            foreach($moduleComposants as $composant) {
+                                if (!empty($composant)) {
+                                    $composant = new Composant($composant);
+                                    $data[$composant->getId()] = $composant;
+                                }
+                            }
+                            $module->setComposants($data);
+                        }
                     } else {
                         echo json_encode(
                             array(
@@ -99,8 +138,27 @@ class ModuleController extends Controller {
                     $module = new Module();
                 }
 
+                $allComposants = $this->rest(
+                    "rest/composant/get/all/dto",
+                    array(),
+                    "GET",
+                    true
+                );
+                $composants = array();
+                // var_dump($allComposants);
+
+                if (!empty($allComposants) && !isset($allComposants["success"])) {
+                    foreach($allComposants as $composant) {
+                        if (!empty($composant)) {
+                            $composant = new Composant($composant);
+                            $composants[] = $composant;
+                        }
+                    }
+                }
+
 
                 $this->variables["module"] = $module;
+                $this->variables["composants"] = $composants;
                 echo json_encode(
                     array(
                         "success" => true,
@@ -165,7 +223,48 @@ class ModuleController extends Controller {
                 if (!empty($data) && !isset($data["success"])) {
                     $module = new Module($data);
 
+                    if($action === "updateModule") {
+                        $moduleComposants = $this->rest(
+                            "rest/module/get/all/composants/" . $module->getId(),
+                            array(),
+                            "GET",
+                            true
+                        );
+                        if (!empty($moduleComposants)) {
+                            $data = array();
+                            foreach($moduleComposants as $composant) {
+                                if (!empty($composant)) {
+                                    $composant = new Composant($composant);
+                                    $data[$composant->getId()] = $composant;
+                                }
+                            }
+                            $module->setComposants($data);
+                        }
+                    }
+
                     if(is_numeric($module->getId())) {
+                        if(!empty($_POST["composants"])) {
+                            foreach ($_POST["composants"] as $key => $id_composant) {
+                                $id_composant = intval($id_composant);
+                                if ($action === "addModule" || !isset($module->getComposants()[$id_composant])) {
+                                    $data = $this->rest(
+                                        "rest/module/set/composant/",
+                                        array(
+                                            "disposition" => $key,
+                                            "composant" => array(
+                                                "id" => $id_composant
+                                            ),
+                                            "module" => array(
+                                                "id" => $module->getId()
+                                            ),
+                                        ),
+                                        "POST",
+                                        true
+                                    );
+                                }
+                            }
+                        }
+
                         $this->redirect("index.php?p=module",
                             $action === "addModule"
                             ? 0

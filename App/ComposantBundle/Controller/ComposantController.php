@@ -51,7 +51,7 @@ class ComposantController extends Controller {
         // $this->includeCSS[] = $this->viewPath . "style.css";
 
         $data = $this->rest(
-            "rest/composant/get/all",
+            "rest/composant/get/all/dto",
             array(),
             "GET",
             true

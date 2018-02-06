@@ -13,6 +13,10 @@ function formModule(id_module = 0) {
             data = $.parseJSON(data);
             if(checkIfNoError(data)) {
                 setContentModal(data.content);
+                $("#moduleComposants").select2({
+                    width: "100%"
+                });
+
                 openModal();
             }
         }
