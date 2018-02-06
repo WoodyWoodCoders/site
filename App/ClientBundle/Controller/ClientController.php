@@ -51,7 +51,7 @@ class ClientController extends Controller {
         // $this->includeCSS[] = $this->viewPath . "style.css";
 
         $data = $this->rest(
-            "rest/client/get/all",
+            "rest/client/get/all/dto",
             array(),
             "GET",
             true
